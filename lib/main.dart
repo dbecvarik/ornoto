@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(Ornoto());
@@ -27,11 +28,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     var center = TextAlign.center;
     var _textStyle = TextStyle(fontSize: 36.0);
+
+    handleKey(RawKeyEvent event) {
+      if (event.isKeyPressed(LogicalKeyboardKey.enter) &&
+          event.isShiftPressed) {
+        print("DEBUG: Shift Enter");
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -41,22 +48,25 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextField(
-              maxLines: null,
-              minLines: 10,
-              textAlign: center,
-              style: _textStyle,
-              controller: controller,
-              onChanged: (text) {
-                RegExp regexp =
-                    new RegExp(r".*^/$", multiLine: true, dotAll: true);
-                if (regexp.hasMatch(text.split("\n").last)) {
-                  print('menu!!!');
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) => widgetDialog);
-                }
-              },
+            RawKeyboardListener(
+              focusNode: FocusNode(),
+              onKey: (event) => handleKey(event),
+              child: TextField(
+                maxLines: null,
+                minLines: 10,
+                textAlign: center,
+                style: _textStyle,
+                onChanged: (text) {
+                  RegExp regexp = new RegExp(
+                    r".*^/",
+                  );
+                  if (regexp.hasMatch(text)) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => widgetDialog);
+                  }
+                },
+              ),
             ),
           ],
         ),
