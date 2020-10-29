@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                 style: _textStyle,
                 onChanged: (text) {
                   RegExp regexp = new RegExp(
-                    r".*^/",
+                    r".*^/$",
                   );
                   if (regexp.hasMatch(text)) {
                     showDialog(
