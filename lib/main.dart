@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
               onKey: (event) => handleKey(event),
               child: TextField(
                 maxLines: null,
-                minLines: 10,
+                minLines: 1,
                 textAlign: center,
                 style: _textStyle,
                 onChanged: (text) {
@@ -83,13 +83,16 @@ Dialog widgetDialog = Dialog(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(15.0),
-          child: Text(
-            'Choose from Library',
-            style: TextStyle(color: Colors.black, fontSize: 22.0),
-          ),
+        Text(
+          'Choose from Library',
+          style: TextStyle(color: Colors.black, fontSize: 22.0),
         ),
+        FlatButton(
+          onPressed: () {
+            print("pressed");
+          },
+          child: new Text('Textbox'),
+        )
       ],
     ),
   ),
