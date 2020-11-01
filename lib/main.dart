@@ -1,5 +1,8 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'widget/selector.dart';
 
 void main() {
   runApp(Ornoto());
@@ -48,7 +51,8 @@ class _HomePageState extends State<HomePage> {
           if (regexp.hasMatch(text)) {
             showDialog(
                 context: context,
-                builder: (BuildContext context) => getWidgetSelector());
+                builder: (BuildContext context) =>
+                    new WidgetSelector(this.addWidget));
           }
         },
       ),
@@ -84,31 +88,6 @@ class _HomePageState extends State<HomePage> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: getWidgets()),
-      ),
-    );
-  }
-
-  Dialog getWidgetSelector() {
-    return new Dialog(
-      child: Container(
-        height: 300.0,
-        width: 360.0,
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Text(
-              'Choose from Library',
-              style: TextStyle(color: Colors.black, fontSize: 22.0),
-            ),
-            FlatButton(
-              onPressed: () {
-                addWidget();
-              },
-              child: new Text('Textbox'),
-            )
-          ],
-        ),
       ),
     );
   }
