@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           if (regexp.hasMatch(text)) {
             showDialog(
                 context: context,
-                builder: (BuildContext context) => widgetDialog());
+                builder: (BuildContext context) => getWidgetSelector());
           }
         },
       ),
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Dialog widgetDialog() {
+  Dialog getWidgetSelector() {
     return new Dialog(
       child: Container(
         height: 300.0,
