@@ -1,8 +1,5 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'widget/selector.dart';
+import 'package:ornoto/widget/note.dart';
 
 void main() {
   runApp(Ornoto());
@@ -30,65 +27,52 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class Widgets {
   List<Widget> widgets = new List();
-  var center = TextAlign.center;
-  var _textStyle = TextStyle(fontSize: 36.0);
 
-  RawKeyboardListener getTextWidget() {
-    return RawKeyboardListener(
-      focusNode: FocusNode(),
-      onKey: (event) => handleKey(event),
-      child: TextField(
-        maxLines: null,
-        minLines: 1,
-        textAlign: center,
-        style: _textStyle,
-        onChanged: (text) {
-          RegExp regexp = new RegExp(
-            r".*^/$",
-          );
-          if (regexp.hasMatch(text)) {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) =>
-                    new WidgetSelector(this.addWidget));
-          }
-        },
-      ),
-    );
-  }
+  Function refresh;
+
+  Widgets(this.refresh);
 
   getWidgets() {
-    if (widgets.isEmpty) {
-      widgets.add(getTextWidget());
-    }
     return widgets;
   }
 
-  addWidget() {
+  addWidget(Widget widget) {
     print("Adding widget");
-    widgets.add(getTextWidget());
-    setState(() {});
+    widgets.add(widget);
+    print(widgets);
+    print(refresh);
   }
 
-  handleKey(RawKeyEvent event) {
-    if (event.isKeyPressed(LogicalKeyboardKey.enter) && event.isShiftPressed) {
-      print("DEBUG: Shift Enter");
+  removeWidget(Widget widget) {
+    print("Removing widget");
+    if (widgets.length > 1) {
+      widgets.removeLast();
     }
+  }
+}
+
+class _HomePageState extends State<HomePage> {
+  var widgets;
+
+  refresh() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    widgets = new Widgets(this.refresh);
+    widgets.addWidget(NoteWidget(widgets));
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Center(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: getWidgets()),
-      ),
-    );
+            children: widgets.getWidgets(),
+          ),
+        ));
   }
 }

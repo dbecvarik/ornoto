@@ -1,14 +1,16 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:ornoto/widget/note.dart';
 
+// ignore: must_be_immutable
 class WidgetSelector extends Dialog {
-  final Function addWidgetCallback;
+  var widgets;
 
-  WidgetSelector(this.addWidgetCallback);
+  WidgetSelector(this.widgets);
 
   @override
-  Dialog build(BuildContext context) {
+  Widget build(BuildContext context) {
     return new Dialog(
       child: Container(
         height: 300.0,
@@ -22,7 +24,7 @@ class WidgetSelector extends Dialog {
               style: TextStyle(color: Colors.black, fontSize: 22.0),
             ),
             FlatButton(
-              onPressed: addWidgetCallback,
+              onPressed: () => {widgets.addWidget(new NoteWidget(widgets))},
               child: new Text('Textbox'),
             )
           ],
