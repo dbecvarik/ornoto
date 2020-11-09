@@ -40,9 +40,9 @@ class Widgets {
 
   addWidget(Widget widget) {
     print("Adding widget");
+    print("Current widgets $widgets");
     widgets.add(widget);
-    print(widgets);
-    print(refresh);
+    refresh();
   }
 
   removeWidget(Widget widget) {
@@ -55,15 +55,20 @@ class Widgets {
 
 class _HomePageState extends State<HomePage> {
   var widgets;
+  bool initialized = false;
 
   refresh() {
+    print("Refreshing state");
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    widgets = new Widgets(this.refresh);
-    widgets.addWidget(NoteWidget(widgets));
+    if (initialized == false) {
+      widgets = new Widgets(this.refresh);
+      widgets.addWidget(new NoteWidget(widgets));
+      initialized = true;
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
