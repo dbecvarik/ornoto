@@ -32,7 +32,10 @@ class Widgets {
 
   Function refresh;
 
-  Widgets(this.refresh);
+  Widgets(Function refresh) {
+    this.refresh = refresh;
+    widgets.add(new NoteWidget(this));
+  }
 
   getWidgets() {
     return widgets;
@@ -41,6 +44,7 @@ class Widgets {
   addWidget(Widget widget) {
     print("Adding widget");
     print("Current widgets $widgets");
+    print("refresh: $refresh");
     widgets.add(widget);
     refresh();
   }
@@ -55,7 +59,10 @@ class Widgets {
 
 class _HomePageState extends State<HomePage> {
   var widgets;
-  bool initialized = false;
+
+  _HomePageState() {
+    widgets = new Widgets(this.refresh);
+  }
 
   refresh() {
     print("Refreshing state");
@@ -64,11 +71,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (initialized == false) {
-      widgets = new Widgets(this.refresh);
-      widgets.addWidget(new NoteWidget(widgets));
-      initialized = true;
-    }
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
